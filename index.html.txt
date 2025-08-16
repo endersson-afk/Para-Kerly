@@ -1,0 +1,170 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Para: Kerly</title>
+  <style>
+    body {
+      background-color: black;
+      color: white;
+      font-family: Arial, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+      overflow: hidden;
+      flex-direction: column;
+    }
+    h1 {
+      cursor: pointer;
+      transition: transform 0.3s ease, color 0.3s ease;
+      z-index: 2;
+      position: relative;
+    }
+    h1:hover {
+      transform: scale(1.1);
+      color: yellow;
+    }
+    .corazon {
+      position: absolute;
+      font-size: 20px;
+      color: yellow;
+      opacity: 0.7;
+      animation: flotar 6s infinite ease-in-out;
+    }
+    @keyframes flotar {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
+      100% { transform: translateY(0px); }
+    }
+
+    /* Animación final */
+    #final {
+      display: none;
+      font-size: 2em;
+      color: #ffcc00;
+      animation: brillar 2s infinite alternate;
+      margin-top: 20px;
+    }
+    @keyframes brillar {
+      0% { text-shadow: 0 0 5px #fff, 0 0 10px #ffcc00, 0 0 20px #ff9900; }
+      100% { text-shadow: 0 0 20px #fff, 0 0 30px #ffcc00, 0 0 40px #ff3300; }
+    }
+    .explosion {
+      position: absolute;
+      font-size: 25px;
+      color: red;
+      animation: volar 2s forwards;
+    }
+    @keyframes volar {
+      from { transform: translate(0,0) scale(1); opacity: 1; }
+      to { transform: translate(calc(-50px + 100px * var(--x)), calc(-50px + 100px * var(--y))) scale(0.5); opacity: 0; }
+    }
+
+    /* Botones de perdón */
+    #opciones {
+      display: none;
+      margin-top: 20px;
+    }
+    .btn {
+      background: yellow;
+      color: black;
+      font-weight: bold;
+      border: none;
+      padding: 10px 20px;
+      margin: 10px;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: 0.3s;
+    }
+    .btn:hover {
+      background: orange;
+      transform: scale(1.1);
+    }
+  </style>
+</head>
+<body>
+
+  <h1 id="mensaje">Buen día, señorita Kerly, de click si es usted</h1>
+
+  <div id="opciones">
+    <h2>¿Podrías perdonar a este tonto?</h2>
+    <button class="btn">Si</button>
+    <button class="btn">SIIII</button>
+    <button class="btn">La primera</button>
+    <button class="btn">La tercera</button>
+    <button class="btn">Te amo Ender eres un idiota</button>
+  </div>
+
+  <div id="final">💛 Te amo Kerly 💛</div>
+
+  <script>
+    const mensajes = [
+      "Dale click si Ender es un idiota",
+      "Dale click si no quieres saber nada de él",
+      "Dale click si es un tonto",
+      "Dale click si con sus tonterías te ha hecho reír",
+      "Dale click si te ha ayudado a sentirte cuando todo estaba mal",
+      "Dale click si lo detestas, es hombre después de todo",
+      "Dale click si sabes que siempre está intentando mejorar para ser un buen hombre para ti",
+      "Dale click si… ¿Lo amas?",
+      "Ahora dale click, si:",
+      "Perdón, sé que soy un tonto, pero este tonto te ama con locura, no quiero perder al amor de mi vida",
+      "Quiero que seas tú en todas las vidas, pero como nadie sabe si hay otras, quiero que seas tú el resto que queda de esta, hasta viejitos, como dijimos ❤️"
+    ];
+
+    let index = 0;
+    const mensaje = document.getElementById("mensaje");
+    const opciones = document.getElementById("opciones");
+    const final = document.getElementById("final");
+
+    mensaje.addEventListener("click", () => {
+      if (index < mensajes.length) {
+        mensaje.textContent = mensajes[index];
+        index++;
+      } else {
+        mensaje.style.display = "none";
+        opciones.style.display = "block";
+      }
+    });
+
+    document.querySelectorAll(".btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        opciones.style.display = "none";
+        final.style.display = "block";
+        lanzarCorazones();
+      });
+    });
+
+    // Corazones de fondo
+    for (let i = 0; i < 40; i++) {
+      let corazon = document.createElement("div");
+      corazon.classList.add("corazon");
+      corazon.textContent = "❤";
+      corazon.style.left = Math.random() * 100 + "vw";
+      corazon.style.top = Math.random() * 100 + "vh";
+      corazon.style.fontSize = (Math.random() * 15 + 10) + "px";
+      corazon.style.animationDuration = (Math.random() * 4 + 4) + "s";
+      document.body.appendChild(corazon);
+    }
+
+    // Corazones explosivos al final
+    function lanzarCorazones() {
+      for (let i = 0; i < 40; i++) {
+        let corazon = document.createElement("div");
+        corazon.classList.add("explosion");
+        corazon.textContent = "❤";
+        corazon.style.left = "50%";
+        corazon.style.top = "50%";
+        corazon.style.setProperty("--x", Math.random());
+        corazon.style.setProperty("--y", Math.random());
+        document.body.appendChild(corazon);
+        setTimeout(() => corazon.remove(), 2000);
+      }
+    }
+  </script>
+
+</body>
+</html>
